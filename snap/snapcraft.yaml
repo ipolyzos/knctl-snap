@@ -1,0 +1,55 @@
+# Description: 
+#   Snap package for 'knctl' the Knative CLI
+#
+# Github: https://github.com/cppforlife/knctl
+#
+# Snap author: Ioannis Polyzos 
+
+name: knctl
+version: 'v0.0.10'
+summary: knctl CLI Snap Package
+description: |
+  'knctl' knative CLI Snap package
+
+grade: stable
+confinement: strict 
+
+parts:
+  kubectl:
+    after: [knctl]
+    plugin: dump
+    build-attributes: [no-patchelf]
+    build-packages:
+    - curl
+    - openssl
+    - file 
+    stage-packages:
+    - net-tools
+    - util-linux
+    - zfsutils-linux
+    - socat
+    - iproute2
+    - dpkg
+    source: .
+    override-build:
+      curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl 
+
+
+      chmod +x kubectl
+
+      chmod +x kubectl
+ 
+
+      mv kubectl ${SNAPCRAFT_PART_INSTALL}/bin/
+  knctl:
+    source-type: git
+    source: https://github.com/cppforlife/knctl
+    source-tag: ${SNAPCRAFT_PROJECT_VERSION}
+    plugin: go 
+    go-importpath: github.com/cppforlife/knctl
+    
+
+apps:
+  knctl:
+    command: bin/knctl
+    plugs: [home,network]
