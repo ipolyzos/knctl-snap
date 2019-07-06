@@ -6,7 +6,7 @@
 # Snap author: Ioannis Polyzos 
 
 name: knctl
-version: 'v0.1.0'
+version: 'v0.2.0'
 summary: knctl CLI Snap Package
 description: |
   'knctl' knative CLI Snap package
